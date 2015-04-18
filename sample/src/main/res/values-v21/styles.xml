@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<style name="AppTheme" parent="android:Theme.Material.Light">-->
+        <!--<item name="android:colorPrimary">@android:color/holo_blue_light</item>-->
+        <!--<item name="android:colorPrimaryDark">@android:color/holo_blue_dark</item>-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--<item name="android:actionBarStyle">@style/Material.ActionBar.NoSolid</item>-->
+    <!--</style>-->
+
+    <!--<style name="Material.ActionBar.NoSolid" parent="android:Widget.Material.Light.ActionBar.Solid">-->
+        <!--&lt;!&ndash; remove shadow below action bar &ndash;&gt;-->
+        <!--&lt;!&ndash; <item name="android:elevation">0dp</item> &ndash;&gt;-->
+        <!--&lt;!&ndash; Support library compatibility &ndash;&gt;-->
+        <!--<item name="android:elevation">0dp</item>-->
+    <!--</style>-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+        <item name="actionBarStyle">@style/ActionBar.ActionBarStyle</item>
+    </style>
+
+    <style name="ActionBar.ActionBarStyle" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.Transparent" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+        <item name="actionBarStyle">@style/ActionBar.ActionBarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+</resources>

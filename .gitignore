@@ -1,0 +1,14 @@
+.gradle
+*.iml
+*.keystore
+/local.properties
+private.properties
+/.idea/
+.DS_Store
+/build
+bin/
+gen/
+aarDependencies/
+.project
+.classpath
+project.properties

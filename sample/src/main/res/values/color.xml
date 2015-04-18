@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="swipe_a">@android:color/holo_orange_light</color>
+    <color name="swipe_b">@android:color/holo_blue_bright</color>
+    <color name="swipe_c">@android:color/holo_blue_light</color>
+    <color name="swipe_d">@android:color/holo_blue_dark</color>
+
+
+    <color name="white">#fff</color>
+    <color name="bg_normal">#efece9</color><!-- f0f0f0 -->
+    <color name="text_grey">#666</color>
+    <color name="text_grey_light">#969696</color>
+    <color name="blue">#015198</color>
+    <color name="black">#292929</color>
+    <color name="dark_red">#C60707</color>
+    <color name="ldrawer_color">#FFFFFF</color>
+    <color name="drawer_arrow_second_color">#303f9f</color>
+    <color name="background_tab_pressed">#8833B5E5</color><!-- #6633B5E5 -->
+    <color name="orange">#D05B33</color>
+    <color name="orange_light">#c35439</color>
+</resources>
