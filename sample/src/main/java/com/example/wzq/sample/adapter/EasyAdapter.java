@@ -98,14 +98,13 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View itemView;
         public List<ImageView> img;
         public List<TextView> tv;
         public List<Button> btn;
+        public List<View> v;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            this.itemView = itemView;
             img = new ArrayList<>();
             tv = new ArrayList<>();
             btn = new ArrayList<>();
@@ -113,12 +112,17 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
                 View temp = itemView.findViewById(views[i]);
                 if (temp instanceof ImageView) {
                     img.add((ImageView) temp);
+                    continue;
                 } else if (temp instanceof TextView) {
                     if (temp instanceof Button) {
                         btn.add((Button) temp);
                     }else{
                         tv.add((TextView) temp);
                     }
+                    continue;
+                } else {
+                    v.add(temp);
+                    continue;
                 }
             }
         }

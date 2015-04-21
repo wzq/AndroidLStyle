@@ -45,12 +45,11 @@
 
             <com.example.wzq.sample.view.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/item_home_user"
+                android:id="@+id/item_home_user_head"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_launcher"
                 app:border_color="@android:color/transparent"
                 app:border_width="0dp" />
 

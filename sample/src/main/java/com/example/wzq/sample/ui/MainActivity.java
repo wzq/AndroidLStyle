@@ -2,6 +2,7 @@ package com.example.wzq.sample.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -20,6 +22,7 @@ import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.EasyUrl;
 import com.example.wzq.sample.util.network.EasyListener.CallBack;
 import com.example.wzq.sample.util.network.VolleyHelper;
+import com.github.clans.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -44,18 +47,38 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
 
     private ProgressBar loading;
 
+    private FloatingActionButton fab;
+
+    private int mScrollOffset = 4;
+
     @Override
     protected void mainCode(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         loading = (ProgressBar) findViewById(R.id.main_progress);
         swipe = (SwipeRefreshLayout) findViewById(R.id.main_swipe);
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fab.hide(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new ScaleInBottomAnimator());
         recyclerView.getItemAnimator().setAddDuration(ANIM_TIME);
         recyclerView.getItemAnimator().setRemoveDuration(ANIM_TIME);
         swipe.setColorSchemeResources(R.color.swipe_a, R.color.swipe_b, R.color.swipe_c, R.color.swipe_d);
         swipe.setOnRefreshListener(this);
+        fab.setOnClickListener(this);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (Math.abs(dy) > mScrollOffset) {
+                    if (dy > 0) {
+                        fab.hide(true);
+                    } else {
+                        fab.show(true);
+                    }
+                }
+            }
+        });
         initData();
     }
 
@@ -72,8 +95,16 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         EasyMap temp = (EasyMap) result;
         data.clear();
         data.addAll(temp.getList("list"));
-        int views[] = {R.id.item_home_user,R.id.item_home_pic,R.id.item_home_user_name,R.id.item_home_type_name,R.id.item_home_content};
+        int views[] = {R.id.item_home_user_head,R.id.item_home_pic,R.id.item_home_user_name,R.id.item_home_type_name,R.id.item_home_content};
         if(adapter == null){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fab.show(true);
+                    fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
+                    fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
+                }
+            }, 300);
             swipe.setVisibility(View.VISIBLE);
             loading.setVisibility(View.GONE);
             adapter = new EasyAdapter(data, R.layout.item_main, views, this);
@@ -109,14 +140,20 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
 
     @Override
     public void onClick(View view) {
-        EasyMap map = (EasyMap) view.getTag();
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("id", map.getString("object_id"));
-        intent.putExtra("uid", map.getString("owner_id"));
-        intent.putExtra("name", map.getString("owner_nickname"));
-        intent.putExtra("pic", map.getString("owner_head_pic"));
-        go(intent);
-        //overridePendingTransition(R.anim.anim_activity_in, R.anim.anim_activity_out);
+        switch (view.getId()){
+            case R.id.main_fab:
+
+                break;
+            case R.id.item_home_pic:
+                EasyMap map = (EasyMap) view.getTag();
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra("id", map.getString("object_id"));
+                intent.putExtra("uid", map.getString("owner_id"));
+                intent.putExtra("name", map.getString("owner_nickname"));
+                intent.putExtra("pic", map.getString("owner_head_pic"));
+                go(intent);
+                break;
+        }
     }
 
     @Override
