@@ -1,10 +1,12 @@
 package com.example.wzq.sample.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.regex.Pattern;
 
 /**
  * Created by wzq on 15/3/13.
+ *
+ * replace the website url
  */
 public class EasyUrl {
     private List<String> urlList = new ArrayList<>();
@@ -26,10 +30,14 @@ public class EasyUrl {
         this.listener = listener;
     }
 
+    /**
+     * @param str 需要筛选的内容
+     * @return URL全部替换成可点击的文字或图片
+     */
     public SpannableStringBuilder getResult(String str) {
         str = stringFilter(str);
         SpannableStringBuilder result = new SpannableStringBuilder(str);
-        if(listener!=null) {
+        if (listener != null) {
             int temp = -1;
             int len = linkString.length();
             for (int i = 0; i < urlList.size(); i++) {
@@ -41,6 +49,10 @@ public class EasyUrl {
         return result;
     }
 
+    /**
+     * @param str
+     * @return 过滤并替换内容
+     */
     private String stringFilter(String str) {
         String regexp
                 = "(((http|ftp|https|file)://)|((?<!((http|ftp|https|file)://))www\\.))"  // 以http...或www开头
@@ -56,12 +68,10 @@ public class EasyUrl {
         return str;
     }
 
-//    private SpannableStringBuilder parseStr(String url){
-//        SpannableStringBuilder ssb = new SpannableStringBuilder(linkString);
-//        ssb.setSpan(clickableSpanFactory(url), 0, linkString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        return ssb;
-//    }
-
+    /**
+     * @param url
+     * @return 生成clickable span
+     */
     private ClickableSpan clickableSpanFactory(final String url) {
         return new ClickableSpan() {
             @Override
@@ -75,20 +85,22 @@ public class EasyUrl {
                 ds.setColor(context.getResources().getColor(android.R.color.holo_blue_light));
                 ds.setUnderlineText(false);
                 ds.clearShadowLayer();
-
             }
         };
-
     }
 
-//    private ImageSpan imageSpanFactory(){
-//        Drawable d = context.getResources().getDrawable(R.drawable.ic_link_nomal);
-//        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-//        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
-//        return span;
-//    }
+    /**
+     * @param id
+     * @return 生成图片
+     */
+    private ImageSpan imageSpanFactory(int id) {
+        Drawable d = context.getResources().getDrawable(id);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+        return span;
+    }
 
     public interface ClickListener {
-        public void callback(String url);
+        void callback(String url);
     }
 }

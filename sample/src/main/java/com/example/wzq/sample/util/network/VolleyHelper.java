@@ -9,6 +9,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.wzq.sample.model.User;
 import com.example.wzq.sample.util.AppInfo;
 import com.example.wzq.sample.util.Constants;
 import com.example.wzq.sample.util.EasyMap;
@@ -106,6 +107,9 @@ public class VolleyHelper {
         return url.toString();
     }
 
+    /**
+     * @param params keep the value type is string. Thinking...
+     */
     @SuppressWarnings("unchecked")
     private void addHeadInfo(Map params) {
         params.put("d_id", AppInfo.getDeviceId(context));
@@ -113,9 +117,10 @@ public class VolleyHelper {
         params.put("p", AppInfo.getClientType());
         params.put("ver", AppInfo.getAppVersion(context));
         params.put("c_id", AppInfo.getChannelId());
-        if (SharedUtil.getUser(context).get("userid") != null) {
-            params.put("u_id", SharedUtil.getUser(context).get("userid"));
-            params.put("tk", SharedUtil.getUser(context).get("token"));
+        User u = SharedUtil.getUser(context);
+        if (u != null) {
+            params.put("u_id", u.getId()+"");
+            params.put("tk", u.getToken());
         }
     }
 }

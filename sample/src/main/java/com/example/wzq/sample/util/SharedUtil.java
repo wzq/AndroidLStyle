@@ -1,50 +1,31 @@
 package com.example.wzq.sample.util;
 
 
-import java.util.Map;
-
-
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import com.example.wzq.sample.model.User;
 
 
-public class SharedUtil{
-	
-	public static SharedPreferences sp;
-	public static void setUser(Context context,EasyMap map){
-		sp = context.getSharedPreferences(Constants.USER_INFO, 0);
-		setMap(map);
-	}
-	@SuppressWarnings("unchecked")
-	public static EasyMap getUser(Context context){
-		sp = context.getSharedPreferences(Constants.USER_INFO, 0);
-		return new EasyMap((Map<String, Object>) sp.getAll());
-	}
-	
-//	public static void setUserExt(Context context,EasyMap map){
-//		sp = context.getSharedPreferences(Configuration.Constants.CAR_USER_EXT, 0);
-//		setMap(map);
-//	}
-//	@SuppressWarnings("unchecked")
-//	public static EasyMap getUserExt(Context context){
-//		sp = context.getSharedPreferences(Configuration.Constants.CAR_USER_EXT, 0);
-//		return new EasyMap((Map<String, String>) sp.getAll());
-//	}
-	
-	public static void clear(Context context){
-		context.getSharedPreferences(Constants.USER_INFO, 0).edit().clear().commit();
-	}
-	public static void updateUser(Context context,String key,String value){
-		sp = context.getSharedPreferences(Constants.USER_INFO, 0);
-		sp.edit().putString(key, value).commit();
-	}
-	
-	private static void setMap(EasyMap map){
-		for (String key : map.keySet()) {
-			sp.edit().putString(key, map.getString(key)).commit();
-		}
-	}
-	
+public class SharedUtil {
 
+    private static final String KEY_USER = "key_user";
 
+    @Deprecated
+    public static void setUser(Context context, EasyMap user) {
+        if (user != null)
+            context.getSharedPreferences(Constants.USER_INFO, 0).edit().putString(KEY_USER, JsonUtil.map2json(user)).commit();
+    }
+
+    public static void setUser(Context context, User user) {
+        if (user != null)
+            context.getSharedPreferences(Constants.USER_INFO, 0).edit().putString(KEY_USER, user.toString()).commit();
+    }
+
+    public static User getUser(Context context) {
+        return JsonUtil.json2obj(context.getSharedPreferences(Constants.USER_INFO, 0).getString(KEY_USER, null), User.class);
+    }
+
+    public static void clear(Context context) {
+        context.getSharedPreferences(Constants.USER_INFO, 0).edit().clear().commit();
+    }
 }

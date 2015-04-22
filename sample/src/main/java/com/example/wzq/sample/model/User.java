@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by wzq on 15/3/4.
  */
-public class User {
+public class User extends BaseModel{
 
     @SerializedName("userid")
     private int id;

@@ -2,6 +2,8 @@ package com.example.wzq.sample.util;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -71,9 +73,13 @@ public class JsonUtil {
 		return map;
 	}
 	
-	
-	public static String map2json(EasyMap map){
+	public static String map2json(Map map){
 		JSONObject obj = new JSONObject(map);
 		return obj.toString().trim();
+	}
+
+	public static <T> T json2obj(String json, Class<T> tClass){
+		Gson gson = new Gson();
+		return gson.fromJson(json, tClass);
 	}
 }
