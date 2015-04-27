@@ -25,6 +25,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
+    compile 'com.rengwuxian.materialedittext:library:2.0.3'
     //compile 'com.github.clans:fab:1.4.0'  //TODO
     compile project(':library')
 }
