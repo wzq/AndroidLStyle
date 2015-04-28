@@ -179,6 +179,9 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
             case 5:
                 temp = "活动";
                 break;
+            case 6:
+                temp = "拼单";
+                break;
             default:
                 break;
         }
