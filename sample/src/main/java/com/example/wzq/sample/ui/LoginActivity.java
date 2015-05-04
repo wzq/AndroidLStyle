@@ -8,8 +8,8 @@ import android.widget.EditText;
 import com.example.wzq.sample.R;
 import com.example.wzq.sample.model.User;
 import com.example.wzq.sample.model.result.ResultLogin;
-import com.example.wzq.sample.util.Constants;
 import com.example.wzq.sample.util.EasyMap;
+import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.SharedUtil;
 import com.example.wzq.sample.util.network.EasyListener;
 import com.example.wzq.sample.util.network.VolleyHelper;
@@ -47,6 +47,6 @@ public class LoginActivity extends BaseActivity implements EasyListener.CallBack
         EasyMap params = new EasyMap();
         params.put("mobile", account.getText().toString());
         params.put("verificationcode", password.getText().toString());
-        VolleyHelper.getInstance(this).get(Constants.LOGIN_REQ, Constants.LOGIN, params, ResultLogin.class, this);
+        VolleyHelper.getInstance(this).get(HostSet.LOGIN, params, ResultLogin.class, this);
     }
 }

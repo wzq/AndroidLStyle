@@ -11,8 +11,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.wzq.sample.model.User;
 import com.example.wzq.sample.util.AppInfo;
-import com.example.wzq.sample.util.Constants;
 import com.example.wzq.sample.util.EasyMap;
+import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.JsonUtil;
 import com.example.wzq.sample.util.SharedUtil;
 
@@ -46,16 +46,14 @@ public class VolleyHelper {
     }
 
     /**
-     * @param reqCode
-     * @param url
      * @param params
      * @param clazz
      * @param callback
      */
-    public void get(int reqCode, String url, EasyMap params, Class clazz, EasyListener.CallBack callback) {
+    public void get(HostSet hostSet, EasyMap params, Class clazz, EasyListener.CallBack callback) {
         addHeadInfo(params);
-        String uri = map2url(params, url);
-        StringRequest request = new StringRequest(uri, new EasyListener(context, callback, reqCode, clazz), new ErrorListener() {
+        String uri = map2url(params, hostSet.getHost());
+        StringRequest request = new StringRequest(uri, new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
@@ -65,15 +63,13 @@ public class VolleyHelper {
     }
 
     /**
-     * @param reqCode
-     * @param url
      * @param key
      * @param params
      * @param clazz
      * @param callback
      */
-    public void post(int reqCode, String url, final String key, final EasyMap params, Class clazz, EasyListener.CallBack callback) {
-        StringRequest request = new StringRequest(Request.Method.POST, Constants.HOST + url, new EasyListener(context, callback, reqCode, clazz), new ErrorListener() {
+    public void post(HostSet hostSet, final String key, final EasyMap params, Class clazz, EasyListener.CallBack callback) {
+        StringRequest request = new StringRequest(Request.Method.POST, hostSet.getHost(), new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
@@ -84,7 +80,6 @@ public class VolleyHelper {
                 Map<String, String> temp = new HashMap<>();
                 addHeadInfo(temp);
                 temp.put(key, JsonUtil.map2json(params));
-                System.out.println(temp);
                 return temp;
             }
         };
@@ -92,9 +87,7 @@ public class VolleyHelper {
     }
 
     private String map2url(EasyMap params, String str) {
-        StringBuilder url;
-        url = new StringBuilder(Constants.HOST);
-        url.append(str);
+        StringBuilder url = new StringBuilder(str);
         Set<String> keySet = params.keySet();
         Iterator<String> it = keySet.iterator();
         while (it.hasNext()) {

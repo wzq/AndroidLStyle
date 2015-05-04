@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.example.wzq.sample.R;
 import com.example.wzq.sample.util.CommenUtil;
-import com.example.wzq.sample.util.Constants;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.FormatUtil;
+import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.network.EasyListener;
 import com.example.wzq.sample.util.network.VolleyHelper;
 import com.example.wzq.sample.view.CircleImageView;
@@ -76,7 +76,7 @@ public class DetailActivity extends BaseActivity implements EasyListener.CallBac
         EasyMap params = new EasyMap();
         params.put("id", id);
         params.put("user_id", uid);
-        VolleyHelper.getInstance(this).post(Constants.FIND_ITEMS_REQ, Constants.FIND_ITEMS, "post_json", params, EasyMap.class, this);
+        VolleyHelper.getInstance(this).post(HostSet.FIND_ITEMS, "post_json", params, EasyMap.class, this);
     }
 
     @Override
