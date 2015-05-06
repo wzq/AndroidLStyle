@@ -35,6 +35,7 @@ public class EasyListener implements Listener<String> {
 	@Override
 	public void onResponse(String response) {
 		try {
+			System.out.println(response);
 			parser(response);
 		} catch (Exception e) {
 			Toast.makeText(context, "数据异常", Toast.LENGTH_LONG).show();

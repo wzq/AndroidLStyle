@@ -129,6 +129,6 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
     }
 
     public interface  CallBack{
-        public void bindItemView(ViewHolder holder, Object item, int position);
+        void bindItemView(ViewHolder holder, Object item, int position);
     }
 }

@@ -44,9 +44,13 @@ public class LoginActivity extends BaseActivity implements EasyListener.CallBack
 
     @Override
     public void onClick(View view) {
+        login(account.getText().toString(), password.getText().toString());
+    }
+
+    private void login(String...s){
         EasyMap params = new EasyMap();
-        params.put("mobile", account.getText().toString());
-        params.put("verificationcode", password.getText().toString());
+        params.put("mobile", s[0]);
+        params.put("verificationcode", s[1]);
         VolleyHelper.getInstance(this).get(HostSet.LOGIN, params, ResultLogin.class, this);
     }
 }

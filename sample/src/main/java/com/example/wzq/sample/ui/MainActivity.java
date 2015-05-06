@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         }
         holder.tv.get(0).setText(itemData.getString("owner_nickname"));
         holder.tv.get(1).setText(getNewsType(itemData.getInt("object_type", 1)));
-        holder.tv.get(2).setText(new EasyUrl(this, null).getResult(itemData.getString("description")));
+        holder.tv.get(2).setText(new EasyUrl(this).replace(itemData.getString("description")));
         holder.tv.get(2).setMovementMethod(LinkMovementMethod.getInstance());
         holder.img.get(1).setTag(item);
         holder.img.get(1).setOnClickListener(this);

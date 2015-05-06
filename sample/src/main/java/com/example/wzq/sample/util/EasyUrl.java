@@ -20,31 +20,56 @@ import java.util.regex.Pattern;
  * replace the website url
  */
 public class EasyUrl {
+
     private List<String> urlList = new ArrayList<>();
-    private String linkString = "🔗网页链接";
+
     private Context context;
+
     private ClickListener listener;
+
+    private int imageId = -1;
+
+    private int colorId = android.R.color.holo_blue_light;
+
+    private String linkString = "🔗网页链接";
+
+    public EasyUrl(Context context) {
+        this.context = context;
+    }
 
     public EasyUrl(Context context, ClickListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
+    public EasyUrl setLinkString(String prefix, String body) {
+        this.linkString = prefix + body;
+        return this;
+    }
+
+    public EasyUrl setColorId(int colorId) {
+        this.colorId = colorId;
+        return this;
+    }
+
+    public EasyUrl setImageId(int imageId) {
+        this.imageId = imageId;
+        return this;
+    }
+
     /**
      * @param str 需要筛选的内容
      * @return URL全部替换成可点击的文字或图片
      */
-    public SpannableStringBuilder getResult(String str) {
+    public SpannableStringBuilder replace(String str) {
         str = stringFilter(str);
         SpannableStringBuilder result = new SpannableStringBuilder(str);
-        if (listener != null) {
-            int temp = -1;
-            int len = linkString.length();
-            for (int i = 0; i < urlList.size(); i++) {
-                temp = str.indexOf(linkString, temp + 1);
-                result.setSpan(clickableSpanFactory(urlList.get(i)), temp, temp + len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                //result.setSpan(imageSpanFactory(), temp, temp+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+        int temp = -1;
+        int len = linkString.length();
+        for (int i = 0; i < urlList.size(); i++) {
+            temp = str.indexOf(linkString, temp + 1);
+            result.setSpan(clickableSpanFactory(urlList.get(i)), temp, temp + len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if(this.imageId > 0) result.setSpan(imageSpanFactory(), temp, temp+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return result;
     }
@@ -76,13 +101,14 @@ public class EasyUrl {
         return new ClickableSpan() {
             @Override
             public void onClick(View view) {
+                if(listener!=null)
                 listener.callback(url);
             }
 
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(context.getResources().getColor(android.R.color.holo_blue_light));
+                ds.setColor(context.getResources().getColor(colorId));
                 ds.setUnderlineText(false);
                 ds.clearShadowLayer();
             }
@@ -90,17 +116,23 @@ public class EasyUrl {
     }
 
     /**
-     * @param id
      * @return 生成图片
      */
-    private ImageSpan imageSpanFactory(int id) {
-        Drawable d = context.getResources().getDrawable(id);
+    private ImageSpan imageSpanFactory() {
+        Drawable d = context.getResources().getDrawable(imageId);
         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
         return span;
     }
 
+    /**
+     *替换字符点击事件
+     */
     public interface ClickListener {
+
+        /**
+         * @param url 原始URL
+         */
         void callback(String url);
     }
 }

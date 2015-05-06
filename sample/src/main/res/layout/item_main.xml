@@ -84,6 +84,7 @@
             android:paddingRight="20dp"
             android:maxLines="3"
             android:singleLine="false"
+            android:textColor="@color/text_grey"
             android:ellipsize="end"
             android:textSize="14sp" />
 
