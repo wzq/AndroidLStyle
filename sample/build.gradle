@@ -27,5 +27,6 @@ dependencies {
     compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     //compile 'com.github.clans:fab:1.4.0'  //TODO
+    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
     compile project(':library')
 }

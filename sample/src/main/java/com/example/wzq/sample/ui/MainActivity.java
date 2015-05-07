@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.example.wzq.sample.R;
 import com.example.wzq.sample.adapter.EasyAdapter;
@@ -45,7 +44,7 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
 
     private SwipeRefreshLayout swipe;
 
-    private ProgressBar loading;
+    private View loading;
 
     private FloatingActionButton fab;
 
@@ -54,7 +53,7 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
     @Override
     protected void mainCode(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
-        loading = (ProgressBar) findViewById(R.id.main_progress);
+        loading = findViewById(R.id.main_progress);
         swipe = (SwipeRefreshLayout) findViewById(R.id.main_swipe);
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
