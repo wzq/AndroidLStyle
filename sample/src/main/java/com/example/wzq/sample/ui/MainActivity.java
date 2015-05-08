@@ -22,6 +22,7 @@ import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.network.EasyListener.CallBack;
 import com.example.wzq.sample.util.network.VolleyHelper;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -44,20 +45,24 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
 
     private SwipeRefreshLayout swipe;
 
-    private View loading;
-
     private FloatingActionButton fab;
+
+    private FloatingActionMenu fabMenu;
 
     private int mScrollOffset = 4;
 
     @Override
     protected void mainCode(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
-        loading = findViewById(R.id.main_progress);
+        setBodyView(R.layout.activity_main);
         swipe = (SwipeRefreshLayout) findViewById(R.id.main_swipe);
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
+
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fabMenu = (FloatingActionMenu) findViewById(R.id.main_fab_menu);
         fab.hide(false);
+        fabMenu.hideMenuButton(false);
+        fabMenu.setClosedOnTouchOutside(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new ScaleInBottomAnimator());
         recyclerView.getItemAnimator().setAddDuration(ANIM_TIME);
@@ -71,9 +76,9 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
                 super.onScrolled(recyclerView, dx, dy);
                 if (Math.abs(dy) > mScrollOffset) {
                     if (dy > 0) {
-                        fab.hide(true);
+                        fabMenu.hideMenuButton(true);
                     } else {
-                        fab.show(true);
+                        fabMenu.showMenuButton(true);
                     }
                 }
             }
@@ -99,13 +104,14 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    fab.show(true);
-                    fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
-                    fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
+//                    fab.show(true);
+                    fabMenu.showMenuButton(true);
+                    fabMenu.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
+                    fabMenu.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
                 }
             }, 300);
             swipe.setVisibility(View.VISIBLE);
-            loading.setVisibility(View.GONE);
+            baseLoading.setVisibility(View.GONE);
             adapter = new EasyAdapter(data, R.layout.item_main, views, this);
             recyclerView.setAdapter(adapter);
         }else{

@@ -28,4 +28,14 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+    </style>
+
 </resources>

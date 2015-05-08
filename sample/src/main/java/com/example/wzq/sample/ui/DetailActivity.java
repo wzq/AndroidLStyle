@@ -11,7 +11,6 @@ import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.FormatUtil;
 import com.example.wzq.sample.util.HostSet;
-import com.example.wzq.sample.util.network.EasyListener;
 import com.example.wzq.sample.util.network.VolleyHelper;
 import com.example.wzq.sample.view.CircleImageView;
 import com.example.wzq.sample.view.FadingActionBarHelper;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * Created by wzq on 15/4/14.
  */
-public class DetailActivity extends BaseActivity implements EasyListener.CallBack {
+public class DetailActivity extends BaseActivity {
 
     private ImageView headPic;
 
@@ -37,12 +36,11 @@ public class DetailActivity extends BaseActivity implements EasyListener.CallBac
     @Override
     protected void mainCode(Bundle savedInstanceState) {
         FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.color.swipe_b)
+                .actionBarBackground(R.color.swipe_c)
                 .headerLayout(R.layout.view_fading_header)
                 .contentLayout(R.layout.activity_detail);
         setContentView(helper.createView(this));
         helper.initActionBar(this);
-        openHome();
         initData();
         initView();
     }

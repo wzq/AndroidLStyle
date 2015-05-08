@@ -37,4 +37,14 @@
         <item name="actionBarStyle">@style/ActionBar.ActionBarStyle</item>
         <item name="windowActionBarOverlay">true</item>
     </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- 随主题而改变的颜色（如CheckBox的颜色）-->
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+        <item name="actionBarStyle">@style/ActionBar.ActionBarStyle</item>
+    </style>
 </resources>

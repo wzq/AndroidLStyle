@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingBottom="500dp">
 
         <LinearLayout
@@ -72,6 +75,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
+                android:layout_marginLeft="10dp"
                 android:padding="5dp">
 
                 <TextView

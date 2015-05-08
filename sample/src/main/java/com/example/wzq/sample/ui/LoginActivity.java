@@ -11,19 +11,18 @@ import com.example.wzq.sample.model.result.ResultLogin;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.SharedUtil;
-import com.example.wzq.sample.util.network.EasyListener;
 import com.example.wzq.sample.util.network.VolleyHelper;
 
 /**
  * Created by wzq on 15/4/27.
  */
-public class LoginActivity extends BaseActivity implements EasyListener.CallBack, View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private EditText account, password;
 
     @Override
     protected void mainCode(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_login);
+        setBodyView(R.layout.activity_login);
         account = (EditText) findViewById(R.id.account);
         password = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
@@ -45,6 +44,7 @@ public class LoginActivity extends BaseActivity implements EasyListener.CallBack
     @Override
     public void onClick(View view) {
         login(account.getText().toString(), password.getText().toString());
+        //go(ProfileActivity.class);
     }
 
     private void login(String...s){
