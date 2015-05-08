@@ -39,6 +39,10 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyList
 
     protected abstract void mainCode(Bundle savedInstanceState);
 
+    /**
+     * If you have to custom a toolbar, you should use 'setContentView'.
+     * @param resId
+     */
     protected void setBodyView(int resId) {
         LinearLayout baseView = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
         FrameLayout baseBody = (FrameLayout) baseView.findViewById(R.id.base_body);

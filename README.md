@@ -1,9 +1,8 @@
 # AndroidLStyle
-UI style of Android L
 
 Base on Material design.
 
-* Integrate: recycleryview, cardview, floatingbutton, fadingactionbar
+* Integrate: recycleryview, cardview, floatingbutton, fadingactionbar, EasyUrl.
 
 * support android 14 +
 
