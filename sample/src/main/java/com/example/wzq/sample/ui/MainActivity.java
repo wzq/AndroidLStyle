@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 
 import com.example.wzq.sample.R;
 import com.example.wzq.sample.adapter.EasyAdapter;
+import com.example.wzq.sample.adapter.LoadMoreAdapter;
 import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.EasyUrl;
@@ -70,10 +71,14 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         swipe.setColorSchemeResources(R.color.swipe_a, R.color.swipe_b, R.color.swipe_c, R.color.swipe_d);
         swipe.setOnRefreshListener(this);
         fab.setOnClickListener(this);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.setOnScrollListener(new LoadMoreAdapter() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+            protected void loadData() {
+                adapter.insertItem(null, adapter.getItemCount());
+            }
+
+            @Override
+            protected void freeSpace(RecyclerView recyclerView, int dx, int dy) {
                 if (Math.abs(dy) > mScrollOffset) {
                     if (dy > 0) {
                         fabMenu.hideMenuButton(true);
@@ -121,7 +126,7 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
     }
 
     @Override
-    public void bindItemView(EasyAdapter.ViewHolder holder, Object item, final int position) {
+    public void bindItemView(EasyAdapter.EasyHolder holder, Object item, final int position) {
         EasyMap itemData = (EasyMap) item;
         List<EasyMap> imgList = itemData.getList("item_pics");
         ImageLoader.getInstance().displayImage(itemData.getString("owner_head_pic"), holder.img.get(0), CommenUtil.options);

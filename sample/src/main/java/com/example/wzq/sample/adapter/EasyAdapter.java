@@ -9,18 +9,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.wzq.sample.R;
 import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by wzq on 15/4/13.
  */
-public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
+public class EasyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static int MODE_MAP = 0;
 
@@ -51,26 +51,32 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
-        return new ViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if(viewType == 0) {
+            return new EasyHolder(LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false));
+        }else{
+            return new LoadHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.load_default, viewGroup, false));
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        if(mode == MODE_MAP) {
-            EasyMap item = (EasyMap) data.get(position);
-            // text 1
-            for (int i = 0; i < keys[1].length; i++) {
-                viewHolder.tv.get(i).setText(Html.fromHtml(item.getString(keys[1][i])));
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        if(viewHolder instanceof  EasyHolder) {
+            EasyHolder holder = (EasyHolder) viewHolder;
+            if (mode == MODE_MAP) {
+                EasyMap item = (EasyMap) data.get(position);
+                // text 1
+                for (int i = 0; i < keys[1].length; i++) {
+                    holder.tv.get(i).setText(Html.fromHtml(item.getString(keys[1][i])));
+                }
+                // img 0
+                for (int i = 0; i < keys[0].length; i++) {
+                    ImageLoader.getInstance().displayImage(item.getString(keys[0][i]), holder.img.get(i), CommenUtil.options);
+                }
             }
-            // img 0
-            for (int i = 0; i < keys[0].length; i++) {
-                ImageLoader.getInstance().displayImage(item.getString(keys[0][i]), viewHolder.img.get(i), CommenUtil.options);
+            if (callBack != null) {
+                callBack.bindItemView(holder, data.get(position), position);
             }
-        }
-        if(callBack != null){
-            callBack.bindItemView(viewHolder,data.get(position), position);
         }
     }
 
@@ -92,18 +98,18 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
         notifyItemInserted(position);
     }
 
-    public void insertItem(Collection<?> items, int position){
-        data.addAll(position, items);
-        notifyItemRangeInserted(position, items.size());
-    }
+//    public void insertItem(Collection<?> items, int position){
+//        data.addAll(position, items);
+//        notifyItemRangeInserted(position, items.size());
+//    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class EasyHolder extends RecyclerView.ViewHolder {
         public List<ImageView> img;
         public List<TextView> tv;
         public List<Button> btn;
         public List<View> v;
 
-        public ViewHolder(View itemView) {
+        public EasyHolder(View itemView) {
             super(itemView);
             img = new ArrayList<>();
             tv = new ArrayList<>();
@@ -128,7 +134,18 @@ public class EasyAdapter extends RecyclerView.Adapter<EasyAdapter.ViewHolder> {
         }
     }
 
+    public static class LoadHolder extends RecyclerView.ViewHolder{
+        public LoadHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     public interface  CallBack{
-        void bindItemView(ViewHolder holder, Object item, int position);
+        void bindItemView(EasyHolder holder, Object item, int position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (data.get(position) == null)?1:0;
     }
 }
