@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
  */
 abstract public class LoadMoreAdapter extends OnScrollListener {
 
-    private boolean status = true;
 
     private int firstVisibleItem, visibleItems, totalItems;
 
@@ -26,24 +25,21 @@ abstract public class LoadMoreAdapter extends OnScrollListener {
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         freeSpace(recyclerView, dx, dy);
-        if (status) {
-            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            if (layoutManager instanceof LinearLayoutManager) {
-                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                visibleItems = linearLayoutManager.getChildCount();
-                totalItems = linearLayoutManager.getItemCount();
-                if ((visibleItems + firstVisibleItem) >= totalItems) {
-                    status = false;
-                    loadData();
-                }
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof LinearLayoutManager) {
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+            firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+            visibleItems = linearLayoutManager.getChildCount();
+            totalItems = linearLayoutManager.getItemCount();
+            if ((visibleItems + firstVisibleItem) >= totalItems) {
+                loadData(totalItems);
             }
         }
     }
 
-    abstract protected void loadData();
+    abstract protected void loadData(int size);
 
-    protected void freeSpace(RecyclerView recyclerView, int dx, int dy){
+    protected void freeSpace(RecyclerView recyclerView, int dx, int dy) {
 
     }
 }

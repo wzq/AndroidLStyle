@@ -98,6 +98,19 @@ public class EasyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyItemInserted(position);
     }
 
+    public void showLoad(){
+        data.add(getItemCount(), null);
+        notifyItemInserted(getItemCount());
+    }
+
+    public void loadComplete(){
+        removeItem(null);
+    }
+
+    public boolean isLoading(){
+        return data.indexOf(null)>0?true:false;
+    }
+
 //    public void insertItem(Collection<?> items, int position){
 //        data.addAll(position, items);
 //        notifyItemRangeInserted(position, items.size());
@@ -144,6 +157,10 @@ public class EasyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void bindItemView(EasyHolder holder, Object item, int position);
     }
 
+    /**
+     * @param position
+     * @return Type: 0 normal, 1 load
+     */
     @Override
     public int getItemViewType(int position) {
         return (data.get(position) == null)?1:0;

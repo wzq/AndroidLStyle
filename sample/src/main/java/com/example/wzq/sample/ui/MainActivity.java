@@ -19,6 +19,7 @@ import com.example.wzq.sample.adapter.LoadMoreAdapter;
 import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.EasyUrl;
+import com.example.wzq.sample.util.FormatUtil;
 import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.network.EasyListener.CallBack;
 import com.example.wzq.sample.util.network.VolleyHelper;
@@ -32,11 +33,11 @@ import java.util.List;
 import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
 
 
-public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, CallBack{
+public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, CallBack {
 
     private static int ANIM_TIME = 300;
 
-    private int startRow = 0, pageSize = 20;
+    private int startRow = 0, pageSize = 20, total = 0;
 
     private RecyclerView recyclerView;
 
@@ -51,6 +52,8 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
     private FloatingActionMenu fabMenu;
 
     private int mScrollOffset = 4;
+
+    private boolean haveMore = true;
 
     @Override
     protected void mainCode(Bundle savedInstanceState) {
@@ -71,10 +74,14 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         swipe.setColorSchemeResources(R.color.swipe_a, R.color.swipe_b, R.color.swipe_c, R.color.swipe_d);
         swipe.setOnRefreshListener(this);
         fab.setOnClickListener(this);
-        recyclerView.setOnScrollListener(new LoadMoreAdapter() {
+        recyclerView.addOnScrollListener(new LoadMoreAdapter() {
             @Override
-            protected void loadData() {
-                adapter.insertItem(null, adapter.getItemCount());
+            protected void loadData(int size) {
+                if (!adapter.isLoading() && haveMore) {
+                    startRow = size;
+                    adapter.showLoad();
+                    getData();
+                }
             }
 
             @Override
@@ -88,10 +95,10 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
                 }
             }
         });
-        initData();
+        getData();
     }
 
-    private void initData(){
+    private void getData() {
         EasyMap params = new EasyMap();
         params.put("page_size", pageSize);
         params.put("start_row", startRow);
@@ -102,14 +109,17 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
     @Override
     public void updateUI(Object result, int reqCode) {
         EasyMap temp = (EasyMap) result;
-        data.clear();
-        data.addAll(temp.getList("list"));
-        int views[] = {R.id.item_home_user_head,R.id.item_home_pic,R.id.item_home_user_name,R.id.item_home_type_name,R.id.item_home_content};
-        if(adapter == null){
+        total = temp.getMap("pager").getInt("total", 0);
+        if (startRow == 0) data.clear();
+        else adapter.loadComplete();
+        List<EasyMap> listTemp = temp.getList("list");
+        haveMore = listTemp.size()==total?true:false;
+        data.addAll(listTemp);
+        int views[] = {R.id.item_home_user_head, R.id.item_home_pic, R.id.item_home_user_name, R.id.item_home_type_name, R.id.item_home_content, R.id.item_home_time};
+        if (adapter == null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-//                    fab.show(true);
                     fabMenu.showMenuButton(true);
                     fabMenu.setMenuButtonShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
                     fabMenu.setMenuButtonHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
@@ -119,10 +129,10 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
             baseLoading.setVisibility(View.GONE);
             adapter = new EasyAdapter(data, R.layout.item_main, views, this);
             recyclerView.setAdapter(adapter);
-        }else{
+        } else {
             adapter.notifyDataSetChanged();
         }
-        if(swipe.isRefreshing())swipe.setRefreshing(false);
+        if (swipe.isRefreshing()) swipe.setRefreshing(false);
     }
 
     @Override
@@ -130,27 +140,28 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         EasyMap itemData = (EasyMap) item;
         List<EasyMap> imgList = itemData.getList("item_pics");
         ImageLoader.getInstance().displayImage(itemData.getString("owner_head_pic"), holder.img.get(0), CommenUtil.options);
-        if(imgList!=null&&imgList.size() > 0){
+        if (imgList != null && imgList.size() > 0) {
             int W = CommenUtil.getScreenMetrics(this).x - CommenUtil.dip2px(this, 10);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) holder.img.get(1).getLayoutParams();
             layoutParams.height = W * 3 / 4;
             holder.img.get(1).setLayoutParams(layoutParams);
             holder.img.get(1).setVisibility(View.VISIBLE);
             ImageLoader.getInstance().displayImage(imgList.get(0).getString("pic_url"), holder.img.get(1), CommenUtil.options);
-        }else{
+        } else {
             holder.img.get(1).setVisibility(View.GONE);
         }
         holder.tv.get(0).setText(itemData.getString("owner_nickname"));
         holder.tv.get(1).setText(getNewsType(itemData.getInt("object_type", 1)));
         holder.tv.get(2).setText(new EasyUrl(this).replace(itemData.getString("description")));
         holder.tv.get(2).setMovementMethod(LinkMovementMethod.getInstance());
+        holder.tv.get(3).setText(itemData.getDateString("update_time", FormatUtil.pattern4));
         holder.img.get(1).setTag(item);
         holder.img.get(1).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.main_fab:
 
                 break;
@@ -168,12 +179,13 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
 
     @Override
     public void onRefresh() {
-        initData();
+        startRow = 0;
+        getData();
     }
 
-    private String getNewsType(int type){
+    private String getNewsType(int type) {
         String temp = "";
-        switch (type){
+        switch (type) {
             case 1:
                 temp = "求购";
                 break;
