@@ -51,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyList
         toolbar = (Toolbar) findViewById(R.id.base_toolbar);
         baseLoading = (ProgressBar) findViewById(R.id.base_progress);
         setSupportActionBar(toolbar);
+        //ButterKnife.inject(this);
     }
 
     protected void setBodyView(View view) {
@@ -61,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyList
         toolbar = (Toolbar) findViewById(R.id.base_toolbar);
         baseLoading = (ProgressBar) findViewById(R.id.base_progress);
         setSupportActionBar(toolbar);
+        //ButterKnife.inject(this);
     }
 
     protected void setBarTitle(String title) {
