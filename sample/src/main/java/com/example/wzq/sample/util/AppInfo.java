@@ -4,6 +4,8 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.example.wzq.sample.BuildConfig;
+
 import java.util.UUID;
 
 public class AppInfo {
@@ -20,7 +22,7 @@ public class AppInfo {
 	}
 
 	public static String getAppVersion(Context context) {
-		return "0.9.7";
+		return BuildConfig.VERSION_NAME;
 	}
 
 	public static String getChannelId() {

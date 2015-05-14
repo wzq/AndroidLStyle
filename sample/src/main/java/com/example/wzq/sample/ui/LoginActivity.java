@@ -23,13 +23,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void mainCode(Bundle savedInstanceState) {
         setBodyView(R.layout.activity_login);
+        baseLoading.setVisibility(View.GONE);
         account = (EditText) findViewById(R.id.account);
         password = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
         User user = SharedUtil.getUser(this);
+
         if(user!=null){
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            login(user.getMobile(),"123456");
         }
     }
 

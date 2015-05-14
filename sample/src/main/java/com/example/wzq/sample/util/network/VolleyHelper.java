@@ -63,12 +63,11 @@ public class VolleyHelper {
     }
 
     /**
-     * @param key
      * @param params
      * @param clazz
      * @param callback
      */
-    public void post(HostSet hostSet, final String key, final EasyMap params, Class clazz, EasyListener.CallBack callback) {
+    public void post(final HostSet hostSet, final EasyMap params, Class clazz, EasyListener.CallBack callback) {
         StringRequest request = new StringRequest(Request.Method.POST, hostSet.getHost(), new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -79,7 +78,7 @@ public class VolleyHelper {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> temp = new HashMap<>();
                 addHeadInfo(temp);
-                temp.put(key, JsonUtil.map2json(params));
+                temp.put(hostSet.getKey(), JsonUtil.map2json(params));
                 return temp;
             }
         };

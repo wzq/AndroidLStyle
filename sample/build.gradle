@@ -8,8 +8,9 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "0.9.9"
         signingConfig signingConfigs.debug
+        buildConfigField "String", "HOST", '"http://112.124.40.161/link-site/api/"'
     }
 
     signingConfigs {

@@ -74,7 +74,7 @@ public class DetailActivity extends BaseActivity {
         EasyMap params = new EasyMap();
         params.put("id", id);
         params.put("user_id", uid);
-        VolleyHelper.getInstance(this).post(HostSet.FIND_ITEMS, "post_json", params, EasyMap.class, this);
+        VolleyHelper.getInstance(this).post(HostSet.FIND_ITEMS, params, EasyMap.class, this);
     }
 
     @Override
