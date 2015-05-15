@@ -102,7 +102,6 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
         EasyMap params = new EasyMap();
         params.put("page_size", pageSize);
         params.put("start_row", startRow);
-        params.put("index", 0);
         VolleyHelper.getInstance(this).post(HostSet.FIND_NEWS, params, EasyMap.class, this);
     }
 

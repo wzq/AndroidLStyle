@@ -24,11 +24,13 @@ android {
 
     buildTypes {
         release {
+            buildConfigField "boolean", "LOG_SWITCH", "false"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
         debug {
+            buildConfigField "boolean", "LOG_SWITCH", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug

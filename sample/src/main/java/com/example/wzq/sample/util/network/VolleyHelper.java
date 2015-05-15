@@ -3,6 +3,7 @@ package com.example.wzq.sample.util.network;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -28,6 +29,10 @@ public class VolleyHelper {
     private static VolleyHelper helper = null;
 
     private RequestQueue requestQueue;
+
+    private static  final  int TIMEOUT = 30000;
+
+    private static final int RETRIES = 1;
 
     private VolleyHelper(Context context) {
         this.context = context;
@@ -59,7 +64,7 @@ public class VolleyHelper {
                 volleyError.printStackTrace();
             }
         });
-        requestQueue.add(request);
+        addRequest(request);
     }
 
     /**
@@ -82,6 +87,11 @@ public class VolleyHelper {
                 return temp;
             }
         };
+        addRequest(request);
+    }
+
+    private void addRequest(Request<?> request){
+        request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));//Don't use default setting in here, it will make you crazy ~
         requestQueue.add(request);
     }
 
