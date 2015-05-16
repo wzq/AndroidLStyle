@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Created by wzq on 15/4/14.
+ */
 public class FormatUtil {
 	
 	private static final String TAG = "FormatUtil";

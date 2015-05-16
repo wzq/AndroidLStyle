@@ -22,6 +22,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Created by wzq on 15/4/14.
+ */
 public class VolleyHelper {
 
     private Context context;
@@ -30,7 +33,7 @@ public class VolleyHelper {
 
     private RequestQueue requestQueue;
 
-    private static  final  int TIMEOUT = 30000;
+    private static final int TIMEOUT = 30000;
 
     private static final int RETRIES = 1;
 
@@ -51,6 +54,7 @@ public class VolleyHelper {
     }
 
     /**
+     * @param hostSet
      * @param params
      * @param clazz
      * @param callback
@@ -68,11 +72,12 @@ public class VolleyHelper {
     }
 
     /**
+     * @param hostSet It is must has a key.
      * @param params
-     * @param clazz
+     * @param clazz  result type
      * @param callback
      */
-    public void post(final HostSet hostSet, final EasyMap params, Class clazz, EasyListener.CallBack callback) {
+    public void post(final HostSet hostSet, final Object params, Class clazz, EasyListener.CallBack callback) {
         StringRequest request = new StringRequest(Request.Method.POST, hostSet.getHost(), new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
@@ -81,16 +86,26 @@ public class VolleyHelper {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> temp = new HashMap<>();
-                addHeadInfo(temp);
-                temp.put(hostSet.getKey(), JsonUtil.map2json(params));
-                return temp;
+                return parseParams(hostSet.getKey(), params);
             }
         };
         addRequest(request);
     }
 
-    private void addRequest(Request<?> request){
+    private Map<String, String> parseParams(String key, Object params) {
+        Map<String, String> temp = new HashMap<>();
+        addHeadInfo(temp);
+        String value;
+        if (params instanceof Map) {
+            value = JsonUtil.map2json((Map) params);
+        } else {
+            value = JsonUtil.obj2json(params);
+        }
+        temp.put(key, value);
+        return temp;
+    }
+
+    private void addRequest(Request<?> request) {
         request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));//Don't use default setting in here, it will make you crazy ~
         requestQueue.add(request);
     }
@@ -110,7 +125,7 @@ public class VolleyHelper {
     }
 
     /**
-     * @param params keep the value type is string. Thinking...
+     * @param params keep the value type is string.
      */
     @SuppressWarnings("unchecked")
     private void addHeadInfo(Map params) {
@@ -121,7 +136,7 @@ public class VolleyHelper {
         params.put("c_id", AppInfo.getChannelId());
         User u = SharedUtil.getUser(context);
         if (u != null) {
-            params.put("u_id", u.getId()+"");
+            params.put("u_id", u.getId() + "");
             params.put("tk", u.getToken());
         }
     }

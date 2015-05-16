@@ -10,6 +10,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+/**
+ * Created by wzq on 15/4/14.
+ */
 public class EasyListener implements Listener<String> {
 
 	public static final int RESULT_CODE_OK = 1;

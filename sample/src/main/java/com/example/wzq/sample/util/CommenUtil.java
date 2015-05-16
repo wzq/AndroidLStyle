@@ -7,6 +7,9 @@ import android.util.DisplayMetrics;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
+/**
+ * Created by wzq on 15/4/14.
+ */
 public class CommenUtil {
 	public static DisplayImageOptions options = new DisplayImageOptions.Builder()
 			.showImageOnLoading(android.R.color.transparent) // 设置图片在下载期间显示的图片

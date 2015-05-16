@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by wzq on 15/4/14.
+ */
 public class EasyMap extends HashMap<String, Object> implements Serializable {
 
     private static final long serialVersionUID = 1L;

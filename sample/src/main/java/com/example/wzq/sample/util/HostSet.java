@@ -12,7 +12,7 @@ public enum HostSet {
 
     HostSet(String...host) {
         this.host = host[0];
-        this.key = host.length>1?host[1]:"";
+        this.key = host.length>1?host[1]:null;
     }
 
     private String host;
