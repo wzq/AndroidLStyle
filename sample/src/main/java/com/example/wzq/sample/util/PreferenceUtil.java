@@ -8,7 +8,7 @@ import com.example.wzq.sample.model.User;
 /**
  * Created by wzq on 15/4/14.
  */
-public class SharedUtil {
+public class PreferenceUtil {
 
     public static final String USER_INFO = "user_info";
 

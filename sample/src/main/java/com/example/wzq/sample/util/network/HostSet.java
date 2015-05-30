@@ -1,4 +1,4 @@
-package com.example.wzq.sample.util;
+package com.example.wzq.sample.util.network;
 
 import com.example.wzq.sample.BuildConfig;
 

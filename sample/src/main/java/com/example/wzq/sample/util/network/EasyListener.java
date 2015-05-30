@@ -15,56 +15,61 @@ import org.json.JSONObject;
  */
 public class EasyListener implements Listener<String> {
 
-	public static final int RESULT_CODE_OK = 1;
+    public static final int RESULT_CODE_OK = 1;
 
-	private CallBack callback;
+    private CallBack callback;
 
-	private int reqCode;
+    private int reqCode;
 
-	private Class clazz;
+    private Class clazz;
 
-	private Context context;
+    private Context context;
 
-	private Gson gson;
+    private Gson gson;
 
-	public EasyListener(Context context, CallBack callback, int reqCode, Class clazz) {
-		this.callback = callback;
-		this.reqCode = reqCode;
-		this.clazz = clazz;
-		this.context = context;
-		gson = new Gson();
-	}
+    public EasyListener(Context context, CallBack callback, int reqCode, Class clazz) {
+        this.callback = callback;
+        this.reqCode = reqCode;
+        this.clazz = clazz;
+        this.context = context;
+        gson = new Gson();
+    }
 
-	@Override
-	public void onResponse(String response) {
-		try {
-			parser(response);
-		} catch (Exception e) {
-			Toast.makeText(context, "数据异常", Toast.LENGTH_LONG).show();
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void onResponse(String response) {
+        try {
+            parser(response);
+        } catch (Exception e) {
+            Toast.makeText(context, "数据异常", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 
-	public interface CallBack{
-		void updateUI(Object result, int reqCode);
-	}
+    public interface CallBack {
+        void updateUI(Object result, int reqCode);
+    }
 
 
-	private void parser(String response) throws Exception {
-		JSONObject jsonObject = JsonUtil.getObj(response);
-		int code = jsonObject.getInt("code");
-		String data = jsonObject.getString("data");
-		String errorMsg = jsonObject.getString("message");
-		if(code == RESULT_CODE_OK){
-			Object result;
-			if(clazz.isInstance(EasyMap.class.newInstance())){
-				result = JsonUtil.getEasyMap(data);
-			}else{
-				result = gson.fromJson(data, clazz);
-			}
-			callback.updateUI(result, reqCode);
-		} else {
-			Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
-		}
-	}
+    /**
+     * custom your parser method.
+     * @param response
+     * @throws Exception
+     */
+    private void parser(String response) throws Exception {
+        JSONObject jsonObject = JsonUtil.getObj(response);
+        int code = jsonObject.getInt("code");
+        String data = jsonObject.getString("data");
+        String errorMsg = jsonObject.getString("message");
+        if (code == RESULT_CODE_OK) {
+            Object result;
+            if (clazz.isInstance(EasyMap.class.newInstance())) {
+                result = JsonUtil.getEasyMap(data);
+            } else {
+                result = gson.fromJson(data, clazz);
+            }
+            callback.updateUI(result, reqCode);
+        } else {
+            Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
+        }
+    }
 }

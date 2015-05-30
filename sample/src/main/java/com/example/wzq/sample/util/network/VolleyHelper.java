@@ -13,9 +13,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.wzq.sample.model.User;
 import com.example.wzq.sample.util.AppInfo;
 import com.example.wzq.sample.util.EasyMap;
-import com.example.wzq.sample.util.HostSet;
 import com.example.wzq.sample.util.JsonUtil;
-import com.example.wzq.sample.util.SharedUtil;
+import com.example.wzq.sample.util.PreferenceUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,9 +48,9 @@ public class VolleyHelper {
         return helper;
     }
 
-    public static VolleyHelper getNewInstance(Context context) {
-        return new VolleyHelper(context);
-    }
+//    public static VolleyHelper getNewInstance(Context context) {
+//        return new VolleyHelper(context);
+//    }
 
     /**
      * @param hostSet
@@ -106,8 +105,25 @@ public class VolleyHelper {
     }
 
     private void addRequest(Request<?> request) {
-        request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));//Don't use default setting in here, it will make you crazy ~
+        request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setTag(context);
         requestQueue.add(request);
+    }
+
+    public void stop(){
+        requestQueue.stop();
+    }
+
+    public void cancelAll(){
+        requestQueue.cancelAll(context);
+    }
+
+    public void start(){
+        requestQueue.start();
+    }
+
+    public RequestQueue getQueue(){
+        return requestQueue;
     }
 
     private String map2url(EasyMap params, String str) {
@@ -134,7 +150,7 @@ public class VolleyHelper {
         params.put("p", AppInfo.getClientType());
         params.put("ver", AppInfo.getAppVersion(context));
         params.put("c_id", AppInfo.getChannelId());
-        User u = SharedUtil.getUser(context);
+        User u = PreferenceUtil.getUser(context);
         if (u != null) {
             params.put("u_id", u.getId() + "");
             params.put("tk", u.getToken());

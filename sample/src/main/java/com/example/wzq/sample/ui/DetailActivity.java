@@ -10,7 +10,7 @@ import com.example.wzq.sample.R;
 import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.FormatUtil;
-import com.example.wzq.sample.util.HostSet;
+import com.example.wzq.sample.util.network.HostSet;
 import com.example.wzq.sample.util.network.VolleyHelper;
 import com.example.wzq.sample.view.CircleImageView;
 import com.example.wzq.sample.view.FadingActionBarHelper;

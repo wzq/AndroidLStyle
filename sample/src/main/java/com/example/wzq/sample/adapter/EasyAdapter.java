@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * Created by wzq on 15/4/13.
+ * It's apply to most, but not to  complex situations.
+ * If you need pagination, you will like {@link LoadMoreAdapter}.
  */
 public class EasyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

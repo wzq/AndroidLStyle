@@ -20,7 +20,7 @@ import com.example.wzq.sample.util.CommenUtil;
 import com.example.wzq.sample.util.EasyMap;
 import com.example.wzq.sample.util.EasyUrl;
 import com.example.wzq.sample.util.FormatUtil;
-import com.example.wzq.sample.util.HostSet;
+import com.example.wzq.sample.util.network.HostSet;
 import com.example.wzq.sample.util.network.EasyListener.CallBack;
 import com.example.wzq.sample.util.network.VolleyHelper;
 import com.github.clans.fab.FloatingActionButton;

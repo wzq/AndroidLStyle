@@ -9,8 +9,8 @@ import com.example.wzq.sample.R;
 import com.example.wzq.sample.model.User;
 import com.example.wzq.sample.model.result.ResultLogin;
 import com.example.wzq.sample.util.EasyMap;
-import com.example.wzq.sample.util.HostSet;
-import com.example.wzq.sample.util.SharedUtil;
+import com.example.wzq.sample.util.network.HostSet;
+import com.example.wzq.sample.util.PreferenceUtil;
 import com.example.wzq.sample.util.network.VolleyHelper;
 
 /**
@@ -27,8 +27,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         account = (EditText) findViewById(R.id.account);
         password = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
-        User user = SharedUtil.getUser(this);
-
+        User user = PreferenceUtil.getUser(this);
         if(user!=null){
             login(user.getMobile(),"123456");
         }
@@ -37,7 +36,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void updateUI(Object result, int reqCode) {
         ResultLogin user = (ResultLogin) result;
-        SharedUtil.setUser(this, user.getUser());
+        PreferenceUtil.setUser(this, user.getUser());
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
