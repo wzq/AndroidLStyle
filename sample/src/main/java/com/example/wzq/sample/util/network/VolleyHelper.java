@@ -61,7 +61,7 @@ public class VolleyHelper {
     public void get(HostSet hostSet, EasyMap params, Class clazz, EasyListener.CallBack callback) {
         addHeadInfo(params);
         String uri = map2url(params, hostSet.getHost());
-        StringRequest request = new StringRequest(uri, new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
+        StringRequest request = new StringRequest(uri, new EasyListener(context, callback, hostSet, clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();
@@ -77,7 +77,7 @@ public class VolleyHelper {
      * @param callback
      */
     public void post(final HostSet hostSet, final Object params, Class clazz, EasyListener.CallBack callback) {
-        StringRequest request = new StringRequest(Request.Method.POST, hostSet.getHost(), new EasyListener(context, callback, hostSet.getCode(), clazz), new ErrorListener() {
+        StringRequest request = new StringRequest(Request.Method.POST, hostSet.getHost(), new EasyListener(context, callback, hostSet, clazz), new ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 volleyError.printStackTrace();

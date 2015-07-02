@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements EasyAdapter.CallBack, 
     }
 
     @Override
-    public void updateUI(Object result, int reqCode) {
+    public void updateUI(Object result, HostSet request) {
         EasyMap temp = (EasyMap) result;
         total = temp.getMap("pager").getInt("total", 0);
         if (startRow == 0) data.clear();

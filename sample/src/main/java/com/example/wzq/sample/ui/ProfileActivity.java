@@ -3,6 +3,7 @@ package com.example.wzq.sample.ui;
 import android.os.Bundle;
 
 import com.example.wzq.sample.R;
+import com.example.wzq.sample.util.network.HostSet;
 
 /**
  * Created by wzq on 15/5/8.
@@ -15,7 +16,7 @@ public class ProfileActivity extends BaseActivity{
     }
 
     @Override
-    public void updateUI(Object result, int reqCode) {
+    public void updateUI(Object result, HostSet request) {
 
     }
 }

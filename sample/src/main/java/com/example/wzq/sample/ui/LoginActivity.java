@@ -34,7 +34,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     }
 
     @Override
-    public void updateUI(Object result, int reqCode) {
+    public void updateUI(Object result, HostSet request) {
         ResultLogin user = (ResultLogin) result;
         PreferenceUtil.setUser(this, user.getUser());
         startActivity(new Intent(this, MainActivity.class));

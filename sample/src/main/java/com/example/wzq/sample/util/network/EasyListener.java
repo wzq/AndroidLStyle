@@ -19,7 +19,7 @@ public class EasyListener implements Listener<String> {
 
     private CallBack callback;
 
-    private int reqCode;
+    private HostSet request;
 
     private Class clazz;
 
@@ -27,9 +27,9 @@ public class EasyListener implements Listener<String> {
 
     private Gson gson;
 
-    public EasyListener(Context context, CallBack callback, int reqCode, Class clazz) {
+    public EasyListener(Context context, CallBack callback, HostSet request, Class clazz) {
         this.callback = callback;
-        this.reqCode = reqCode;
+        this.request = request;
         this.clazz = clazz;
         this.context = context;
         gson = new Gson();
@@ -46,7 +46,7 @@ public class EasyListener implements Listener<String> {
     }
 
     public interface CallBack {
-        void updateUI(Object result, int reqCode);
+        void updateUI(Object result, HostSet request);
     }
 
 
@@ -67,7 +67,7 @@ public class EasyListener implements Listener<String> {
             } else {
                 result = gson.fromJson(data, clazz);
             }
-            callback.updateUI(result, reqCode);
+            callback.updateUI(result, request);
         } else {
             Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
         }

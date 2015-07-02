@@ -78,7 +78,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     @Override
-    public void updateUI(Object result, int reqCode) {
+    public void updateUI(Object result, HostSet request) {
         EasyMap temp = (EasyMap) result;
         post = temp.getMap("post");
         imgList = post.getList("item_pics");

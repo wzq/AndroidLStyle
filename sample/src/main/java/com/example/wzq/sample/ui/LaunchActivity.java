@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.example.wzq.sample.R;
 import com.example.wzq.sample.util.network.EasyListener;
+import com.example.wzq.sample.util.network.HostSet;
 
 /**
  * Created by wzq on 15/4/15.
@@ -21,7 +22,7 @@ public class LaunchActivity extends Activity implements EasyListener.CallBack{
     }
 
     @Override
-    public void updateUI(Object obj, int reqCode) {
+    public void updateUI(Object result, HostSet request) {
 
     }
 }
