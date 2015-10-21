@@ -106,7 +106,7 @@ public class VolleyHelper {
 
     private void addRequest(Request<?> request) {
         request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT, RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.setTag(context);
+        request.setTag(context.toString());
         requestQueue.add(request);
     }
 
@@ -114,8 +114,8 @@ public class VolleyHelper {
         requestQueue.stop();
     }
 
-    public void cancelAll(){
-        requestQueue.cancelAll(context);
+    public void cancelByTag(Context c){
+        requestQueue.cancelAll(c.toString());
     }
 
     public void start(){
